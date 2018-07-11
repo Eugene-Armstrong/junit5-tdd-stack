@@ -2,19 +2,19 @@ package com.thoughtworks.tdd;
 
 public class FizzBuzzWhizz {
     public String FizzBuzzWhizzWithNumber(int number) {
-        StringBuffer result = new StringBuffer();
+        String result = "";
         if(String.valueOf(number).indexOf('3')!=-1){
             return "Fizz";
         }
         if(number % 3 == 0){
-            result.append("Fizz");
+            result += "Fizz";
         }
         if(number % 5 == 0){
-            result.append("Buzz");
+            result += "Buzz";
         }
         if(number % 7 == 0){
-            result.append("Whizz");
+            result += "Whizz";
         }
-        return result.toString().equals("")?String.valueOf(number):result.toString();
+        return result.equals("")?String.valueOf(number):result;
     }
 }
