@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class ParkingBoy {
     public ArrayList<NewParkingLot> newParkingLots;
-
     public Receipt receipt;
 
     public ParkingBoy(ArrayList<NewParkingLot> newParkingLots){
@@ -45,7 +44,6 @@ public class ParkingBoy {
             for (NewParkingLot newParkingLot : newParkingLots){
                 if(!newParkingLot.isFull()){
                     receipt = newParkingLot.park(new NewCar());
-                    break;
                 }
             }
             return receipt;
@@ -58,9 +56,7 @@ public class ParkingBoy {
         NewCar car = new NewCar();
         for (NewParkingLot newParkingLot : newParkingLots){
             if(newParkingLot.getParkedNewCars().containsKey(receipt)){
-                newParkingLot.size++;
                 car = newParkingLot.unPark(receipt);
-                break;
             }
         }
         return car;

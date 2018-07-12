@@ -110,6 +110,7 @@ public class NewParkingLotTest {
 
     }
 
+
     @Test
     public void should_return_false_when_given_parking_lots_are_not_full() {
         ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
@@ -169,14 +170,11 @@ public class NewParkingLotTest {
     public void should_get_specific_NewCar_when_call_unPark_from_parking_boy_given_receipt_is_right(){
         ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
         NewParkingLot newParkingLot1 = new NewParkingLot(1);
-        NewParkingLot newParkingLot2 = new NewParkingLot(0);
         newParkingLots.add(newParkingLot1);
-        newParkingLots.add(newParkingLot2);
         ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
-        NewCar theNewCar = new NewCar();
         Receipt receipt = parkingBoy.park(newParkingLots);
 
-        assertThat(parkingBoy.unPark(receipt), is(theNewCar));
+        assertThat(parkingBoy.unPark(receipt), is(newParkingLot1.parkedNewCars.get(receipt)));
     }
 
     @Test
