@@ -2,6 +2,8 @@ package com.thoughtworks.tdd;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -106,5 +108,98 @@ public class NewParkingLotTest {
         }
         System.out.println("Hello I am called");
 
+    }
+
+    @Test
+    public void should_return_false_when_given_parking_lots_are_not_full() {
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(0);
+        NewParkingLot newParkingLot2 = new NewParkingLot(1);
+        NewParkingLot newParkingLot3 = new NewParkingLot(0);
+        newParkingLots.add(newParkingLot1);
+        newParkingLots.add(newParkingLot2);
+        newParkingLots.add(newParkingLot3);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+
+        assertThat(parkingBoy.isParkingLotsFull(), is(false));
+    }
+
+    @Test
+    public void should_return_true_when_given_parking_lots_are_full() {
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(0);
+        NewParkingLot newParkingLot2 = new NewParkingLot(0);
+        newParkingLots.add(newParkingLot1);
+        newParkingLots.add(newParkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+        assertThat(parkingBoy.isParkingLotsFull(), is(true));
+    }
+
+    @Test
+    public void should_park_successfully_when_given_parking_lots_are_not_full() {
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(0);
+        NewParkingLot newParkingLot2 = new NewParkingLot(1);
+        newParkingLots.add(newParkingLot1);
+        newParkingLots.add(newParkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+        try {
+            parkingBoy.park(newParkingLots);
+        } catch (ParkingLotFullException exception) {
+            fail("should park successfully");
+        }
+    }
+
+    @Test
+    public void should_park_not_successfully_when_given_parking_lots_are_full() {
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(0);
+        NewParkingLot newParkingLot2 = new NewParkingLot(0);
+        newParkingLots.add(newParkingLot1);
+        newParkingLots.add(newParkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+        try {
+            parkingBoy.park(newParkingLots);
+            fail("should park successfully");
+        } catch (ParkingLotFullException exception) {
+        }
+    }
+
+    @Test
+    public void should_get_specific_NewCar_when_call_unPark_from_parking_boy_given_receipt_is_right(){
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(1);
+        NewParkingLot newParkingLot2 = new NewParkingLot(0);
+        newParkingLots.add(newParkingLot1);
+        newParkingLots.add(newParkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+        NewCar theNewCar = new NewCar();
+        Receipt receipt = parkingBoy.park(newParkingLots);
+
+        assertThat(parkingBoy.unPark(receipt), is(theNewCar));
+    }
+
+    @Test
+    public void should_get_specific_NewCar_when_call_unPark_from_parking_boy_given_receipt_is_wrong(){
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(1);
+        newParkingLots.add(newParkingLot1);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+        NewCar theNewCar = new NewCar();
+        Receipt receipt = parkingBoy.park(newParkingLots);
+
+        assertThat(parkingBoy.unPark(receipt), not(theNewCar));
+    }
+
+    @Test
+    public void should_be_false_when_call_isParkingLotsFull_given_full_parking_lots_take_out_a_NewCar(){
+        ArrayList<NewParkingLot> newParkingLots = new ArrayList<>();
+        NewParkingLot newParkingLot1 = new NewParkingLot(1);
+        newParkingLots.add(newParkingLot1);
+        ParkingBoy parkingBoy = new ParkingBoy(newParkingLots);
+        Receipt receipt = parkingBoy.park(newParkingLots);
+        parkingBoy.unPark(receipt);
+
+        assertThat(parkingBoy.isParkingLotsFull(), is(false));
     }
 }

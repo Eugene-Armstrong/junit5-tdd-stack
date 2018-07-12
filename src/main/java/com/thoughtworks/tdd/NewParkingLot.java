@@ -6,16 +6,24 @@ import java.util.Map;
 public class NewParkingLot {
     public int size;
     public Map<Receipt,NewCar> parkedNewCars = new HashMap<>();
-
-    public NewParkingLot(int size){
-        setsize(size);
-    }
-    public int getsize() {
+    public int getSize() {
         return size;
     }
 
-    public void setsize(int size) {
+    public void setSize(int size) {
         this.size = size;
+    }
+
+    public Map<Receipt, NewCar> getParkedNewCars() {
+        return parkedNewCars;
+    }
+
+    public void setParkedNewCars(Map<Receipt, NewCar> parkedNewCars) {
+        this.parkedNewCars = parkedNewCars;
+    }
+
+    public NewParkingLot(int size){
+        setSize(size);
     }
 
     public Receipt park(NewCar NewCar){
@@ -30,8 +38,12 @@ public class NewParkingLot {
     }
 
     public NewCar unPark(Receipt receipt){
-        this.size++;
-        return this.parkedNewCars.get(receipt);
+        NewCar car = new NewCar();
+        if(getParkedNewCars().containsKey(receipt)){
+            this.size++;
+            car = this.parkedNewCars.get(receipt);
+        }
+        return car;
     }
 
     public boolean isFull(){
