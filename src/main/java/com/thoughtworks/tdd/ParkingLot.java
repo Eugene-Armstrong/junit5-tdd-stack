@@ -2,6 +2,7 @@ package com.thoughtworks.tdd;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class ParkingLot {
     public int size;
@@ -31,8 +32,9 @@ public class ParkingLot {
             throw new ParkingLotFullException();
         }
         this.size--;
-
         Receipt key = new Receipt();
+        UUID uuid = UUID.randomUUID();
+        key.setReceiptUUID(uuid.toString());
         this.parkedNewCars.put(key, Car);
         return key;
     }

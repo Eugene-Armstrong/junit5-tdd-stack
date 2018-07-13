@@ -209,14 +209,18 @@ public class ParkingLotTest {
         assertThat(parkingBoy.isParkingLotsFull(), is(false));
     }
 
-//    @Test
-//    public void should_get_UUID_of_receipt_when_parking_successfully(){
-//        ParkingLot newParkingLot = new ParkingLot(1);
-//        try {
-//            newParkingLot.park(new Car());
-//        } catch (ParkingLotFullException exception) {
-//            fail("should park successfully");
-//        }
-//    }
+    @Test
+    public void should_get_UUID_of_receipt_when_parking_successfully(){
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car();
+        car.setCarNum("粤H88888");
+        try {
+            Receipt receipt = parkingLot.park(car);
+            assertThat(parkingLot.parkedNewCars.get(receipt).getCarNum(),
+                    is("粤H88888"));
+        } catch (ParkingLotFullException exception) {
+            fail("Should park successfully and get UUID of receipt");
+        }
+    }
 
 }
