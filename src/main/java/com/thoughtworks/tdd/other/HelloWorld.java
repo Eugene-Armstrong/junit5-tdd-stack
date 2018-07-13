@@ -1,4 +1,4 @@
-package com.thoughtworks.tdd;
+package com.thoughtworks.tdd.other;
 
 /**
  * Created by twer on 3/28/14.

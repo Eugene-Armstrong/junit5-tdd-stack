@@ -1,4 +1,4 @@
-package com.thoughtworks.tdd;
+package com.thoughtworks.tdd.other;
 
 public class FizzBuzzWhizz {
     public String FizzBuzzWhizzWithNumber(int number) {

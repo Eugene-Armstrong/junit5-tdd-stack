@@ -3,11 +3,11 @@ package com.thoughtworks.tdd;
 import java.util.ArrayList;
 
 public class ParkingBoy {
-    public ArrayList<NewParkingLot> newParkingLots;
+    public ArrayList<ParkingLot> parkingLots;
     public Receipt receipt;
 
-    public ParkingBoy(ArrayList<NewParkingLot> newParkingLots){
-        setNewParkingLots(newParkingLots);
+    public ParkingBoy(ArrayList<ParkingLot> parkingLots){
+        setParkingLots(parkingLots);
     }
 
     public Receipt getReceipt() {
@@ -18,18 +18,18 @@ public class ParkingBoy {
         this.receipt = receipt;
     }
 
-    public ArrayList<NewParkingLot> getNewParkingLots() {
-        return newParkingLots;
+    public ArrayList<ParkingLot> getParkingLots() {
+        return parkingLots;
     }
 
-    public void setNewParkingLots(ArrayList<NewParkingLot> newParkingLots) {
-        this.newParkingLots = newParkingLots;
+    public void setParkingLots(ArrayList<ParkingLot> parkingLots) {
+        this.parkingLots = parkingLots;
     }
 
     public boolean isParkingLotsFull(){
         boolean result = false;
-        for(NewParkingLot newParkingLot : newParkingLots) {
-            if (newParkingLot.size == 0) {
+        for(ParkingLot parkingLot : parkingLots) {
+            if (parkingLot.size == 0) {
                 result = true;
             }else {
                 result = false;
@@ -39,11 +39,11 @@ public class ParkingBoy {
         return result;
     }
 
-    public Receipt park(ArrayList<NewParkingLot> newParkingLots){
+    public Receipt park(ArrayList<ParkingLot> parkingLots){
         if(!isParkingLotsFull()){
-            for (NewParkingLot newParkingLot : newParkingLots){
-                if(!newParkingLot.isFull()){
-                    receipt = newParkingLot.park(new NewCar());
+            for (ParkingLot parkingLot : parkingLots){
+                if(!parkingLot.isFull()){
+                    receipt = parkingLot.park(new Car());
                 }
             }
             return receipt;
@@ -52,11 +52,11 @@ public class ParkingBoy {
         }
     }
 
-    public NewCar unPark(Receipt receipt){
-        NewCar car = new NewCar();
-        for (NewParkingLot newParkingLot : newParkingLots){
-            if(newParkingLot.getParkedNewCars().containsKey(receipt)){
-                car = newParkingLot.unPark(receipt);
+    public Car unPark(Receipt receipt){
+        Car car = new Car();
+        for (ParkingLot parkingLot : parkingLots){
+            if(parkingLot.getParkedNewCars().containsKey(receipt)){
+                car = parkingLot.unPark(receipt);
             }
         }
         return car;

@@ -1,10 +1,11 @@
 package com.thoughtworks.tdd;
 
 public class Car {
-
-    public boolean isGoingToPark(ParkingLot parkingLot){
-        return parkingLot.isParkingLotAvailable();
-//        ParkingLot parkingLot = new ParkingLot();
-//        parkingLot.setCurrentNum(parkingLot.getCurrentNum()+1);
+    private String carNum;
+    public String getCarNum() {
+        return carNum;
+    }
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
     }
 }

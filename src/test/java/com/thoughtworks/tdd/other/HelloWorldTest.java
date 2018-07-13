@@ -1,7 +1,7 @@
-package com.thoughtworks.tdd;
+package com.thoughtworks.tdd.other;
 
-import com.thoughtworks.tdd.Dependency;
-import com.thoughtworks.tdd.HelloWorld;
+import com.thoughtworks.tdd.other.Dependency;
+import com.thoughtworks.tdd.other.HelloWorld;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,5 +1,6 @@
-package com.thoughtworks.tdd;
+package com.thoughtworks.tdd.other;
 
+import com.thoughtworks.tdd.other.FizzBuzzWhizz;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;

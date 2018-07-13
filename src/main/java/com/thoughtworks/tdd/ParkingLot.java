@@ -1,44 +1,52 @@
 package com.thoughtworks.tdd;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ParkingLot {
-    public int parkingTotal;
-    public int currentNum;
-
-    public ParkingLot(int parkingTotal,int currentNum){
-        this.parkingTotal = parkingTotal;
-        this.currentNum = currentNum;
+    public int size;
+    public Map<Receipt,Car> parkedNewCars = new HashMap<>();
+    public int getSize() {
+        return size;
     }
 
-    public int getCurrentNum() {
-        return currentNum;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    public void setCurrentNum(int currentNum) {
-        this.currentNum = currentNum;
+    public Map<Receipt, Car> getParkedNewCars() {
+        return parkedNewCars;
     }
 
-    public int getParkingTotal() {
-        return parkingTotal;
+    public void setParkedNewCars(Map<Receipt, Car> parkedNewCars) {
+        this.parkedNewCars = parkedNewCars;
     }
 
-    public void setParkingTotal(int parkingTotal) {
-        this.parkingTotal = parkingTotal;
+    public ParkingLot(int size){
+        setSize(size);
     }
 
-    public boolean isParkingLotAvailable(){
-        boolean isAvailable= currentNum < parkingTotal?true:false;
-        notice(isAvailable);
-        return isAvailable;
-    }
-
-    public String notice(boolean isAvailable){
-        String result = isAvailable?"Welcome!":"Sorry,Parking-Lot is not available now!";
-        return result;
-    }
-
-    public void park(Car car){
-        if(car.isGoingToPark(this)){
-            currentNum++;
+    public Receipt park(Car Car){
+        if(size == 0){
+            throw new ParkingLotFullException();
         }
+        this.size--;
+
+        Receipt key = new Receipt();
+        this.parkedNewCars.put(key, Car);
+        return key;
+    }
+
+    public Car unPark(Receipt receipt){
+        Car car = new Car();
+        if(getParkedNewCars().containsKey(receipt)){
+            this.size++;
+            car = this.parkedNewCars.get(receipt);
+        }
+        return car;
+    }
+
+    public boolean isFull(){
+        return this.size == 0;
     }
 }
