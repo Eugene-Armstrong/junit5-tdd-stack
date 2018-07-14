@@ -73,27 +73,27 @@ public class ParkingBoyTest {
     @Test
     public void should_get_specific_car_when_call_unPark_from_parking_boy_given_receipt_is_right(){
 
-        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+//        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+//
+//        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+//        ParkingLot parkingLot1 = new ParkingLot(1);
+//        parkingLots.add(parkingLot1);
+//        parkingBoy = new ParkingBoy(parkingLots);
+//        Car car = new Car();
+//        Receipt receipt = parkingBoy.park(car);
+//
+//        when(parkingBoy.unPark(receipt)).thenReturn(parkingLot1.parkedNewCars.get(receipt));
+//
+//        verify(parkingBoy).unPark(receipt);
 
         ArrayList<ParkingLot> parkingLots = new ArrayList<>();
         ParkingLot parkingLot1 = new ParkingLot(1);
         parkingLots.add(parkingLot1);
-        parkingBoy = new ParkingBoy(parkingLots);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         Car car = new Car();
         Receipt receipt = parkingBoy.park(car);
 
-        when(parkingBoy.unPark(receipt)).thenReturn(parkingLot1.parkedNewCars.get(receipt));
-
-        verify(parkingBoy).unPark(receipt);
-
-//        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-//        ParkingLot parkingLot1 = new ParkingLot(1);
-//        parkingLots.add(parkingLot1);
-//        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-//        Car car = new Car();
-//        Receipt receipt = parkingBoy.park(car);
-//
-//        assertThat(parkingBoy.unPark(receipt), is(parkingLot1.parkedNewCars.get(receipt)));
+        assertThat(parkingBoy.unPark(receipt), is(parkingLot1.parkedNewCars.get(receipt)));
     }
 
     @Test
