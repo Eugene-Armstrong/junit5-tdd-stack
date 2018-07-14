@@ -39,11 +39,11 @@ public class ParkingBoy {
         return result;
     }
 
-    public Receipt park(ArrayList<ParkingLot> parkingLots){
+    public Receipt park(Car car){
         if(!isParkingLotsFull()){
             for (ParkingLot parkingLot : parkingLots){
                 if(!parkingLot.isFull()){
-                    receipt = parkingLot.park(new Car());
+                    receipt = parkingLot.park(car);
                 }
             }
             return receipt;
@@ -51,6 +51,7 @@ public class ParkingBoy {
             throw new ParkingLotFullException();
         }
     }
+
 
     public Car unPark(Receipt receipt){
         Car car = new Car();
