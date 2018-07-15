@@ -16,39 +16,21 @@ import static org.mockito.Mockito.when;
 public class ParkingBoyTest {
 
     @Test
-    public void should_return_false_when_given_parking_lots_are_not_full() {
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(0);
-        ParkingLot parkingLot2 = new ParkingLot(1);
-        parkingLots.add(parkingLot1);
-        parkingLots.add(parkingLot2);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-
-        assertThat(parkingBoy.isParkingLotsFull(), is(false));
-    }
-
-    @Test
-    public void should_return_true_when_given_parking_lots_are_full() {
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(0);
-        ParkingLot parkingLot2 = new ParkingLot(0);
-        parkingLots.add(parkingLot1);
-        parkingLots.add(parkingLot2);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-        assertThat(parkingBoy.isParkingLotsFull(), is(true));
-    }
-
-    @Test
     public void should_park_successfully_when_given_parking_lots_are_not_full() {
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(0);
-        ParkingLot parkingLot2 = new ParkingLot(1);
-        parkingLots.add(parkingLot1);
-        parkingLots.add(parkingLot2);
+        Receipt receipt = new Receipt();
         Car car = new Car();
+        ParkingLot parkingLot1 = mock(ParkingLot.class);
+
+        when(parkingLot1.isFull()).thenReturn(false);
+        when(parkingLot1.park(car)).thenReturn(receipt);
+
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(parkingLot1);
+
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         try {
-            parkingBoy.park(car);
+            parkingBoy.parking(car);
+            verify(parkingLot1).park(car);
         } catch (ParkingLotFullException exception) {
             fail("Parking boy should park successfully");
         }
@@ -56,101 +38,144 @@ public class ParkingBoyTest {
 
     @Test
     public void should_park_not_successfully_when_given_parking_lots_are_full() {
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(0);
-        ParkingLot parkingLot2 = new ParkingLot(0);
-        parkingLots.add(parkingLot1);
-        parkingLots.add(parkingLot2);
+        Receipt receipt = new Receipt();
         Car car = new Car();
+        ParkingLot parkingLot1 = mock(ParkingLot.class);
+
+        when(parkingLot1.isFull()).thenReturn(true);
+        when(parkingLot1.park(car)).thenReturn(receipt);
+
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(parkingLot1);
+
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         try {
-            parkingBoy.park(car);
-            fail("Parking boy should park successfully");
+            parkingBoy.parking(car);
+            verify(parkingLot1).park(car);
+            fail("Parking boy should not park successfully");
         } catch (ParkingLotFullException exception) {
         }
+
+//        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+//        ParkingLot parkingLot1 = new ParkingLot(0);
+//        ParkingLot parkingLot2 = new ParkingLot(0);
+//        parkingLots.add(parkingLot1);
+//        parkingLots.add(parkingLot2);
+//        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+//        try {
+//            parkingBoy.parking(new Car());
+//            fail("Parking boy should not parking successfully");
+//        } catch (ParkingLotFullException exception) {
+//        }
     }
 
     @Test
     public void should_get_specific_car_when_call_unPark_from_parking_boy_given_receipt_is_right(){
 
-//        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+//        Receipt receipt = new Receipt();
+//        Car car = new Car();
+//
+//        ParkingLot parkingLot1 = mock(ParkingLot.class);
+//        when(parkingLot1.isFull()).thenReturn(false);
+//        when(parkingLot1.park(car)).thenReturn(receipt);
+//        when(parkingLot1.unPark(receipt)).thenReturn(car);
 //
 //        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-//        ParkingLot parkingLot1 = new ParkingLot(1);
 //        parkingLots.add(parkingLot1);
-//        parkingBoy = new ParkingBoy(parkingLots);
-//        Car car = new Car();
-//        Receipt receipt = parkingBoy.park(car);
+//        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
 //
-//        when(parkingBoy.unPark(receipt)).thenReturn(parkingLot1.parkedNewCars.get(receipt));
-//
-//        verify(parkingBoy).unPark(receipt);
+//        try {
+//            receipt = parkingBoy.parking(car);
+//            assertThat(parkingBoy.unPark(receipt), is(car));
+//            verify(parkingLot1).park(car);
+//            verify(parkingLot1).unPark(receipt);
+//        } catch (WrongReceiptException exception) {
+//            fail("Parking boy should get the car by right receipt");
+//        }
 
         ArrayList<ParkingLot> parkingLots = new ArrayList<>();
         ParkingLot parkingLot1 = new ParkingLot(1);
         parkingLots.add(parkingLot1);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         Car car = new Car();
-        Receipt receipt = parkingBoy.park(car);
-
-        assertThat(parkingBoy.unPark(receipt), is(parkingLot1.parkedNewCars.get(receipt)));
+        Receipt receipt = parkingBoy.parking(car);
+        try {
+            parkingBoy.unPark(receipt);
+        } catch (WrongReceiptException exception) {
+            fail("Parking boy should get the car by right receipt");
+        }
     }
 
     @Test
     public void should_not_get_specific_car_when_call_unPark_from_parking_boy_given_receipt_is_wrong(){
+
+        Receipt receipt = new Receipt();
+        Car car = new Car();
+
+        ParkingLot parkingLot1 = mock(ParkingLot.class);
+        when(parkingLot1.isFull()).thenReturn(false);
+        when(parkingLot1.park(car)).thenReturn(receipt);
+        when(parkingLot1.unPark(receipt)).thenReturn(car);
+
         ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(2);
         parkingLots.add(parkingLot1);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-        Car car1 = new Car();
-        Car car2 = new Car();
-        Receipt receipt = parkingBoy.park(car1);
-        parkingLot1.park(car2);
-        assertThat(parkingBoy.unPark(receipt), is(car1));
-        assertThat(parkingBoy.unPark(receipt), not(car2));
-    }
 
-    @Test
-    public void should_be_false_when_call_isParkingLotsFull_given_full_parking_lots_take_out_a_car(){
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(1);
-        parkingLots.add(parkingLot1);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-        Car car1 = new Car();
-        Receipt receipt = parkingBoy.park(car1);
-        parkingBoy.unPark(receipt);
+        try {
+            receipt = parkingBoy.parking(car);
+            assertThat(parkingBoy.unPark(receipt), is(car));
+            verify(parkingLot1).park(car);
+            verify(parkingLot1).unPark(receipt);
+            fail("Parking boy should not get the car by wrong receipt");
+        } catch (WrongReceiptException exception) {
+        }
 
-        assertThat(parkingBoy.isParkingLotsFull(), is(false));
+//        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+//        ParkingLot parkingLot1 = new ParkingLot(2);
+//        parkingLots.add(parkingLot1);
+//        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+//        Car car1 = new Car();
+//        Car car2 = new Car();
+//        Receipt receipt = parkingBoy.parking(car1);
+//        parkingLot1.park(car2);
+//        assertThat(parkingBoy.unPark(receipt), is(car1));
+//        try {
+//            parkingBoy.unPark(receipt);
+//            fail("Parking boy should not get the car by wrong receipt");
+//        } catch (WrongReceiptException exception) {
+//        }
     }
 
     @Test
     public void should_park_successfully_when_call_park_again_given_a_full_parking_lots_take_out_a_car(){
+
         ArrayList<ParkingLot> parkingLots = new ArrayList<>();
         ParkingLot parkingLot1 = new ParkingLot(1);
         parkingLots.add(parkingLot1);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         Car theCar = new Car();
-        Receipt receipt = parkingBoy.park(theCar);
+        Receipt receipt = parkingBoy.parking(theCar);
         parkingBoy.unPark(receipt);
 
         try {
-            parkingBoy.park(new Car());
+            parkingBoy.parking(new Car());
         } catch (ParkingLotFullException exception) {
-            fail("Parking boy should park successfully");
+            fail("Parking boy should parking successfully");
         }
     }
 
     @Test
     public void should_get_UUID_of_receipt_when_parking_successfully(){
+
         ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
         car.setCarNum("粤H88888");
         try {
             Receipt receipt = parkingLot.park(car);
-            assertThat(parkingLot.parkedNewCars.get(receipt).getCarNum(),
+            assertThat(parkingLot.parkedCars.get(receipt).getCarNum(),
                     is("粤H88888"));
         } catch (ParkingLotFullException exception) {
-            fail("Should park successfully and get UUID of receipt");
+            fail("Should parking successfully and get UUID of receipt");
         }
     }
 

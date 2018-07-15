@@ -4,18 +4,9 @@ import java.util.ArrayList;
 
 public class ParkingBoy {
     public ArrayList<ParkingLot> parkingLots;
-    public Receipt receipt;
 
     public ParkingBoy(ArrayList<ParkingLot> parkingLots){
         setParkingLots(parkingLots);
-    }
-
-    public Receipt getReceipt() {
-        return receipt;
-    }
-
-    public void setReceipt(Receipt receipt) {
-        this.receipt = receipt;
     }
 
     public ArrayList<ParkingLot> getParkingLots() {
@@ -29,7 +20,7 @@ public class ParkingBoy {
     public boolean isParkingLotsFull(){
         boolean result = false;
         for(ParkingLot parkingLot : parkingLots) {
-            if (parkingLot.size == 0) {
+            if (parkingLot.isFull()) {
                 result = true;
             }else {
                 result = false;
@@ -39,26 +30,30 @@ public class ParkingBoy {
         return result;
     }
 
-    public Receipt park(Car car){
-        if(!isParkingLotsFull()){
-            for (ParkingLot parkingLot : parkingLots){
-                if(!parkingLot.isFull()){
-                    receipt = parkingLot.park(car);
-                }
+    public Receipt parking(Car car){
+        Receipt r = null;
+        for (ParkingLot parkingLot : parkingLots){
+            if(!parkingLot.isFull()){
+                r = parkingLot.park(car);
+                break;
             }
-            return receipt;
-        }else {
+        }
+        if(r == null){
             throw new ParkingLotFullException();
         }
+        return r;
     }
 
-
     public Car unPark(Receipt receipt){
-        Car car = new Car();
+        Car car = null;
         for (ParkingLot parkingLot : parkingLots){
-            if(parkingLot.getParkedNewCars().containsKey(receipt)){
+            if(parkingLot.getParkedCars().containsKey(receipt)){
                 car = parkingLot.unPark(receipt);
+                break;
             }
+        }
+        if(car==null) {
+            throw new WrongReceiptException();
         }
         return car;
     }

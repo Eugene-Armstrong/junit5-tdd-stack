@@ -18,9 +18,9 @@ public class ParkingLotTest {
     public void should_park_successfully_given_parking_lot_is_not_full() {
         ParkingLot parkingLot = new ParkingLot(1);
         try {
-            parkingLot.park(new Car());
+            parkingLot.park(new Car(""));
         } catch (ParkingLotFullException exception) {
-            fail("should park successfully");
+            fail("should parking successfully");
         }
     }
 
@@ -28,15 +28,15 @@ public class ParkingLotTest {
     public void should_park_failed_given_parking_lot_is_full(){
         ParkingLot parkingLot = new ParkingLot(0);
         try {
-            parkingLot.park(new Car());
-            fail("should park successfully");
+            parkingLot.park(new Car(""));
+            fail("should parking successfully");
         } catch (ParkingLotFullException exception) { }
     }
 
     @Test
     public void should_get_specific_NewCar_when_call_unPark_given_receipt_is_right(){
         ParkingLot parkingLot = new ParkingLot(1);
-        Car theCar = new Car();
+        Car theCar = new Car("");
         Receipt receipt = parkingLot.park(theCar);
         assertThat(parkingLot.unPark(receipt), is(theCar));
     }
@@ -45,7 +45,7 @@ public class ParkingLotTest {
     public void should_not_get_specific_NewCar_when_call_unPark_given_receipt_is_wrong(){
         ParkingLot parkingLot = new ParkingLot(1);
 
-        Car theCar = new Car();
+        Car theCar = new Car("");
         Receipt receipt = parkingLot.park(theCar);
 
         Receipt anotherReceipt = new Receipt();
@@ -71,7 +71,7 @@ public class ParkingLotTest {
     public void should_be_false_when_call_isFull_given_a_full_parking_lot_take_out_a_NewCar(){
         ParkingLot parkingLot = new ParkingLot(1);
 
-        Car theCar = new Car();
+        Car theCar = new Car("");
         Receipt receipt = parkingLot.park(theCar);
         parkingLot.unPark(receipt);
 
@@ -82,14 +82,14 @@ public class ParkingLotTest {
     public void should_park_successfully_when_call_park_again_given_a_full_parking_lot_take_out_a_NewCar(){
         ParkingLot parkingLot = new ParkingLot(1);
 
-        Car theCar = new Car();
+        Car theCar = new Car("");
         Receipt receipt = parkingLot.park(theCar);
         parkingLot.unPark(receipt);
 
         try {
-            parkingLot.park(new Car());
+            parkingLot.park(new Car(""));
         } catch (ParkingLotFullException exception) {
-            fail("should park successfully");
+            fail("should parking successfully");
         }
     }
 
