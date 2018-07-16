@@ -45,7 +45,7 @@ public class MainTest {
         when(parkingBoy.isParkingLotsFull()).thenReturn(true);
         ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
         parkingSys.showParkPage();
-        verify(response).send("车已停满，请晚点再来！");
+        verify(response).send("车已停满，请晚点再来！\n");
     }
 
     @Test

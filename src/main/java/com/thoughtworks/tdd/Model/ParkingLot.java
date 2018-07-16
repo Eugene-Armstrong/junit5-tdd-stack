@@ -34,7 +34,7 @@ public class ParkingLot {
         if(isFull()){
             throw new ParkingLotFullException();
         }
-//        size--;
+        size--;
         Receipt key = new Receipt();
         UUID uuid = UUID.randomUUID();
         key.setReceiptUUID(uuid.toString());
@@ -45,7 +45,7 @@ public class ParkingLot {
     public Car unPark(Receipt receipt){
         Car car = null;
         if(parkedCars.containsKey(receipt)){
-//            size++;
+            size++;
             car = parkedCars.remove(receipt);
         }
         return car;

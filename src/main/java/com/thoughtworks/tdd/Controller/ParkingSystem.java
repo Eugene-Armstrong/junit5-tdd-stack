@@ -46,7 +46,7 @@ public class ParkingSystem {
             response.send("请输入车牌号：");
             return "park";
         }else{
-            response.send("车已停满，请晚点再来！");
+            response.send("车已停满，请晚点再来！\n");
             return "isFull";
         }
     }
