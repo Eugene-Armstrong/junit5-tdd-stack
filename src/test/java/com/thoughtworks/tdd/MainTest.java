@@ -1,22 +1,18 @@
 package com.thoughtworks.tdd;
 
+import com.thoughtworks.tdd.Controller.ParkingSystem;
+import com.thoughtworks.tdd.Exception.WrongReceiptException;
+import com.thoughtworks.tdd.Model.Car;
+import com.thoughtworks.tdd.Model.ParkingBoy;
+import com.thoughtworks.tdd.Model.Receipt;
+import com.thoughtworks.tdd.View.Request;
+import com.thoughtworks.tdd.View.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.Mockito.*;
 
 public class MainTest {
@@ -31,70 +27,62 @@ public class MainTest {
     }
 
     @Test
-    public void should_return_false_when_call_isInputValid_given_not_1or2(){
-        String input ="3";
-        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
-        System.setIn(inputStream);
-        ParkingSystem parkingSys = new ParkingSystem();
-        assertEquals(parkingSys.isInputValid(),false);
+    public void should_print_please_input_carNum_when_call_showParkPage_given_not_parking_lots_not_full(){
+        Request request = mock(Request.class);
+        Response response = mock(Response.class);
+        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+        when(parkingBoy.isParkingLotsFull()).thenReturn(false);
+        ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
+        parkingSys.showParkPage();
+        verify(response).send("请输入车牌号：");
     }
 
     @Test
-    public void should_return_true_when_call_isInputValid_given_input_is_1or2(){
-        String input1 ="1";
-        String input2 ="2";
-        InputStream inputStream1 = new ByteArrayInputStream(input1.getBytes());
-        InputStream inputStream2 = new ByteArrayInputStream(input2.getBytes());
-        System.setIn(inputStream1);
-        ParkingSystem parkingSys = new ParkingSystem();
-        assertEquals(parkingSys.isInputValid(),true);
-        System.setIn(inputStream2);
-        assertEquals(parkingSys.isInputValid(),true);
+    public void should_print_parklots_are_full_when_call_showParkPage_given_input_full_parkinglots(){
+        Request request = mock(Request.class);
+        Response response = mock(Response.class);
+        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+        when(parkingBoy.isParkingLotsFull()).thenReturn(true);
+        ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
+        parkingSys.showParkPage();
+        verify(response).send("车已停满，请晚点再来！");
     }
 
     @Test
-    public void should_park_successfully_when_call_handleParkingInput_given_parking_lots_not_full_and_input_is_1(){
-        String inputOperation ="1";
-        InputStream inputStream = new ByteArrayInputStream(inputOperation.getBytes());
-        System.setIn(inputStream);
-
-        String carNo = "XXXXX";
-        InputStream carNoStream = new ByteArrayInputStream(carNo.getBytes());
-        System.setIn(carNoStream);
-
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(1);
-        parkingLots.add(parkingLot1);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-
-        ParkingSystem parkingSys = new ParkingSystem();
-        parkingSys.handleParkingInput(parkingBoy);
-
-        assertEquals(sysOutput().contains(parkingSys.getCurReceipt().getReceiptUUID()),true);
+    public void should_print_park_successfully_and_receipt_when_call_park(){
+        Request request = mock(Request.class);
+        Response response = mock(Response.class);
+        Receipt receipt = new Receipt("23f315c1-4eca-4ea9-9433-6349af7763dd");
+        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+        when(parkingBoy.parking(Mockito.any())).thenReturn(receipt);
+        ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
+        parkingSys.park();
+        verify(response).send("停车成功，您的小票是：\n" + receipt.getReceiptUUID()+"\n");
     }
 
     @Test
-    public void should_not_park_successfully_when_call_handleParkingInput_given_parking_lots_full_and_input_is_1(){
-        String inputOperation ="1";
-        InputStream inputStream = new ByteArrayInputStream(inputOperation.getBytes());
-        System.setIn(inputStream);
-
-        String carNo = "XXXXX";
-        InputStream carNoStream = new ByteArrayInputStream(carNo.getBytes());
-        System.setIn(carNoStream);
-
-        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(0);
-        parkingLots.add(parkingLot1);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-
-        ParkingSystem parkingSys = new ParkingSystem();
-        try{
-            parkingSys.handleParkingInput(parkingBoy);
-            fail("Should not park successfully!");
-        }catch (ParkingLotFullException e){
-        }
-
+    public void should_print_car_has_been_token_successfully_and_carNum_when_call_unpark_given_right_receipt(){
+        Car car = new Car("粤HDT386");
+        Request request = mock(Request.class);
+        when(request.getCommand()).thenReturn("fef8e384-8738-11e8-adc0-fa7ae01bbebc");
+        Response response = mock(Response.class);
+        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+        when(parkingBoy.unPark(Mockito.any())).thenReturn(car);
+        ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
+        parkingSys.unpark();
+        verify(response).send("车已取出，您的车牌号是: "+car.getCarNum() + "\n");
     }
 
+    @Test
+    public void should_print_car_can_not_be_token_and_when_call_unpark_given_wrong_receipt(){
+        Car car = new Car("粤HDT386");
+        Request request = mock(Request.class);
+        when(request.getCommand()).thenReturn("23f315c1-4eca-4ea9-9433-6349af7763dd");
+        Response response = mock(Response.class);
+        ParkingBoy parkingBoy = mock(ParkingBoy.class);
+        when(parkingBoy.unPark(Mockito.any())).thenThrow(new WrongReceiptException());
+        ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
+        parkingSys.unpark();
+        verify(response).send("非法小票，无法取出车，请查证后再输！\n");
+    }
 }

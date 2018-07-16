@@ -1,5 +1,11 @@
 package com.thoughtworks.tdd;
 
+import com.thoughtworks.tdd.Exception.ParkingLotFullException;
+import com.thoughtworks.tdd.Exception.WrongReceiptException;
+import com.thoughtworks.tdd.Model.Car;
+import com.thoughtworks.tdd.Model.ParkingBoy;
+import com.thoughtworks.tdd.Model.ParkingLot;
+import com.thoughtworks.tdd.Model.Receipt;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

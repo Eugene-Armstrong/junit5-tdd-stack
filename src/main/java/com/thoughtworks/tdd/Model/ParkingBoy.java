@@ -1,4 +1,7 @@
-package com.thoughtworks.tdd;
+package com.thoughtworks.tdd.Model;
+
+import com.thoughtworks.tdd.Exception.ParkingLotFullException;
+import com.thoughtworks.tdd.Exception.WrongReceiptException;
 
 import java.util.ArrayList;
 
@@ -18,13 +21,10 @@ public class ParkingBoy {
     }
 
     public boolean isParkingLotsFull(){
-        boolean result = false;
+        boolean result = true;
         for(ParkingLot parkingLot : parkingLots) {
-            if (parkingLot.isFull()) {
-                result = true;
-            }else {
+            if (!parkingLot.isFull()) {
                 result = false;
-                break;
             }
         }
         return result;
@@ -49,7 +49,7 @@ public class ParkingBoy {
         for (ParkingLot parkingLot : parkingLots){
             if(parkingLot.getParkedCars().containsKey(receipt)){
                 car = parkingLot.unPark(receipt);
-                break;
+//                break;
             }
         }
         if(car==null) {

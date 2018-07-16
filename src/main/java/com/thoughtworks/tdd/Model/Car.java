@@ -1,4 +1,4 @@
-package com.thoughtworks.tdd;
+package com.thoughtworks.tdd.Model;
 
 import java.util.Objects;
 
