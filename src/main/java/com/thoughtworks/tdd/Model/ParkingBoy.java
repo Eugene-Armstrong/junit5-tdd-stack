@@ -6,7 +6,7 @@ import com.thoughtworks.tdd.Exception.WrongReceiptException;
 import java.util.ArrayList;
 
 public class ParkingBoy {
-    public ArrayList<ParkingLot> parkingLots;
+    private ArrayList<ParkingLot> parkingLots;
 
     public ParkingBoy(ArrayList<ParkingLot> parkingLots){
         setParkingLots(parkingLots);
@@ -31,17 +31,17 @@ public class ParkingBoy {
     }
 
     public Receipt parking(Car car){
-        Receipt r = null;
+        Receipt receipt = null;
         for (ParkingLot parkingLot : parkingLots){
             if(!parkingLot.isFull()){
-                r = parkingLot.park(car);
+                receipt = parkingLot.park(car);
                 break;
             }
         }
-        if(r == null){
+        if(receipt == null){
             throw new ParkingLotFullException();
         }
-        return r;
+        return receipt;
     }
 
     public Car unPark(Receipt receipt){
@@ -49,7 +49,7 @@ public class ParkingBoy {
         for (ParkingLot parkingLot : parkingLots){
             if(parkingLot.getParkedCars().containsKey(receipt)){
                 car = parkingLot.unPark(receipt);
-//                break;
+                break;
             }
         }
         if(car==null) {

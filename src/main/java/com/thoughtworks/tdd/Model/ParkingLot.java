@@ -7,8 +7,23 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ParkingLot {
-    public int size;
-    public Map<Receipt,Car> parkedCars = new HashMap<>();
+
+    private String id;
+    private int size;
+    private String name;
+    private Map<Receipt,Car> parkedCars = new HashMap<>();
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getSize() {
         return size;
@@ -34,7 +49,7 @@ public class ParkingLot {
         if(isFull()){
             throw new ParkingLotFullException();
         }
-        size--;
+//        size--;
         Receipt key = new Receipt();
         UUID uuid = UUID.randomUUID();
         key.setReceiptUUID(uuid.toString());
@@ -45,13 +60,13 @@ public class ParkingLot {
     public Car unPark(Receipt receipt){
         Car car = null;
         if(parkedCars.containsKey(receipt)){
-            size++;
+//            size++;
             car = parkedCars.remove(receipt);
         }
         return car;
     }
 
     public boolean isFull(){
-        return this.size == 0;
+        return size==parkedCars.size();
     }
 }

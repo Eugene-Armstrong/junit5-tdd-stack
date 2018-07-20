@@ -17,8 +17,12 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<ParkingLot> parkingLots = new ArrayList<>();
-        ParkingLot parkingLot1 = new ParkingLot(2);
+        ParkingLot parkingLot1 = new ParkingLot(1);
+        parkingLot1.setId("001");
+        parkingLot1.setName("东门停车场");
         ParkingLot parkingLot2 = new ParkingLot(2);
+        parkingLot2.setId("002");
+        parkingLot2.setName("西门停车场");
         parkingLots.add(parkingLot1);
         parkingLots.add(parkingLot2);
 
@@ -27,7 +31,7 @@ public class Main {
         Response response = new Response();
 
         ParkingSystem parkingSys = new ParkingSystem(request,response,parkingBoy);
-        String currentPage = "main";
+        String currentPage = "root";
         Router router = new Router(currentPage,parkingSys);
 
         try {
