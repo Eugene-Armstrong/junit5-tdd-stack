@@ -31,13 +31,13 @@ public class PickUpController implements BaseController {
             Car car = parkingBoy.unPark(new Receipt(reciptID));
 
             if (car == null) {
-                response.send("非法小票，无法取出车，请查证后再输"+"\n");
+                response.send("非法小票，无法取出车，请查证后再输！\n");
             } else {
                 response.send("车已取出，您的车牌号是: " + car.getCarNum()+"\n");
             }
 
         } catch (WrongReceiptException ex) {
-            response.send("非法Recipt ID，无法取出车，请查证后再输\n");
+            response.send("非法小票，无法取出车，请查证后再输！\n");
         } finally {
             return "forward:root";
         }

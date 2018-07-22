@@ -22,7 +22,7 @@ public class GoToParkingController implements BaseController {
 
         String forwardPath = "";
         if (parkingBoy.isParkingLotsFull()) {
-            response.send("车库已满，无法停车！\n");
+            response.send("车已停满，请晚点再来！\n");
             forwardPath = "forward:root";
         } else {
             response.send("请输入车牌号:");
