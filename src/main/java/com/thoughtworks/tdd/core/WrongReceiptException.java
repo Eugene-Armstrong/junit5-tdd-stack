@@ -1,4 +1,4 @@
-package com.thoughtworks.tdd.Exception;
+package com.thoughtworks.tdd.core;
 
 public class WrongReceiptException extends RuntimeException {
 }

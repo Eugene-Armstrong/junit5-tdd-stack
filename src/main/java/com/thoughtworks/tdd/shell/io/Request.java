@@ -1,4 +1,4 @@
-package com.thoughtworks.tdd.View;
+package com.thoughtworks.tdd.shell.io;
 
 public class Request {
     public String getCommand() {

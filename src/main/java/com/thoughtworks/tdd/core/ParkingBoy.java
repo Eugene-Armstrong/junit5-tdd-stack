@@ -1,7 +1,4 @@
-package com.thoughtworks.tdd.Model;
-
-import com.thoughtworks.tdd.Exception.ParkingLotFullException;
-import com.thoughtworks.tdd.Exception.WrongReceiptException;
+package com.thoughtworks.tdd.core;
 
 import java.util.ArrayList;
 

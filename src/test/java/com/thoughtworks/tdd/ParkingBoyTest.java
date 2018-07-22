@@ -1,11 +1,11 @@
 package com.thoughtworks.tdd;
 
-import com.thoughtworks.tdd.Exception.ParkingLotFullException;
-import com.thoughtworks.tdd.Exception.WrongReceiptException;
-import com.thoughtworks.tdd.Model.Car;
-import com.thoughtworks.tdd.Model.ParkingBoy;
-import com.thoughtworks.tdd.Model.ParkingLot;
-import com.thoughtworks.tdd.Model.Receipt;
+import com.thoughtworks.tdd.core.ParkingLotFullException;
+import com.thoughtworks.tdd.core.WrongReceiptException;
+import com.thoughtworks.tdd.core.Car;
+import com.thoughtworks.tdd.core.ParkingBoy;
+import com.thoughtworks.tdd.core.ParkingLot;
+import com.thoughtworks.tdd.core.Receipt;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -178,7 +178,7 @@ public class ParkingBoyTest {
         car.setCarNum("粤H88888");
         try {
             Receipt receipt = parkingLot.park(car);
-            assertThat(parkingLot.parkedCars.get(receipt).getCarNum(),
+            assertThat(parkingLot.getParkedCars().get(receipt).getCarNum(),
                     is("粤H88888"));
         } catch (ParkingLotFullException exception) {
             fail("Should parking successfully and get UUID of receipt");
